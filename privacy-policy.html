@@ -16,7 +16,7 @@
   <nav class="crumbs"><a href="index.html">Legal &amp; Privacy</a> / Privacy Policy</nav>
 
   <h1>Privacy Policy</h1>
-  <p class="updated">Last updated: 27 September 2026 · Applies to LIA for Android, both editions</p>
+  <p class="updated">Last updated: 4 October 2026 · Applies to LIA for Android, both editions</p>
 
   <p class="lede">
     LIA ("LIA", "the app", "we", "us") is made by <strong>codeninjavik</strong> ("we", "our").
@@ -26,8 +26,10 @@
   </p>
 
   <div class="card notice">
-    <p><strong>In one paragraph:</strong> LIA sends what you say or type to Google's Gemini API
-    so it can reply - that's the core of how it works. It reads your contacts only on your
+    <p><strong>In one paragraph:</strong> LIA sends what you <em>say</em> to Google's Gemini Live
+    API, and what you <em>type</em> in Chat to Groq's API (or, only as a fallback, to Google's
+    Gemini API), so it can reply - that's the core of how it works. Your voice and chat
+    conversations are saved as text in a History list on your phone only. It reads your contacts only on your
     phone, to turn a name into a number, and never uploads your contact list. The full edition
     can optionally read and act on your screen when you ask it to, and can check a purchased
     access key against our database - the Play edition does neither. LIA never sells your data,
@@ -55,13 +57,32 @@
   Live API in real time so LIA can understand and reply to you. Audio is not saved to a file on
   your device or on our servers. A short text recap of the recent conversation is kept
   <strong>in memory only</strong>, to keep context if the connection briefly reconnects - it is
-  cleared when the session ends and is never written to disk by LIA.</p>
+  cleared when the session ends. The text transcript of the conversation (what you said and what
+  LIA replied, as transcribed by the Gemini service) is saved to History on your device - see
+  "Conversation history" below.</p>
 
   <h3>Typed chat messages</h3>
-  <p>Text you type in Chat is sent to Google's Gemini API (a standard one-off text request,
-  separate from the voice connection) to generate a reply. The visible conversation is replayed
-  as context with each new message so LIA remembers earlier turns in that session; it is stored
-  only on your device for as long as the Chat screen keeps it (not synced to any server we run).</p>
+  <p>Text you type in Chat is sent to <strong>Groq</strong> (api.groq.com), an AI inference
+  provider, as a standard one-off text request, separate from the voice connection, to generate
+  a reply. The recent part of the conversation (up to the last 20 messages) is sent along with
+  each new message so LIA remembers earlier turns. If Groq can't answer and you have saved a
+  Gemini API key, the same request is sent to Google's Gemini API instead. Your chat text is
+  not sent anywhere else.</p>
+
+  <h3>Conversation history</h3>
+  <p>LIA saves your typed chats and the text transcripts of your voice conversations in a
+  History list so you can reopen them. This is stored <strong>only on your device</strong>, in
+  LIA's private app storage (up to 200 conversations; the oldest are dropped first). It is not
+  uploaded to any server we run and is excluded from Android's cloud backup. Voice <em>audio</em>
+  is never saved. You can delete a single conversation by swiping it away in History, delete
+  all of them with "Clear Conversation History" in Settings, or erase everything with "Clear all
+  app data" or by uninstalling the app.</p>
+
+  <h3>Website builder</h3>
+  <p>If you ask LIA to build you a website (by voice or in Chat), your request is sent to
+  Google's Gemini API using your Gemini API key to generate the page. The finished website is
+  saved as a file in LIA's private storage on your device only; it is not uploaded to any
+  server we run.</p>
 
   <h3>Contacts</h3>
   <p>If you ask LIA to call or message someone, it reads your device's Contacts
@@ -122,7 +143,8 @@
   <h2 id="share">3. Who your data is shared with</h2>
   <table>
     <tr><th>Recipient</th><th>What they get</th><th>Why</th></tr>
-    <tr><td>Google (Gemini API)</td><td>Voice audio and/or typed chat text, and any info needed to answer you</td><td>To generate LIA's replies. Governed by <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google's own Privacy Policy</a> and the <a href="https://ai.google.dev/gemini-api/terms" target="_blank" rel="noopener">Gemini API Terms</a>.</td></tr>
+    <tr><td>Google (Gemini API)</td><td>Voice audio during a voice conversation; your website-builder requests; typed chat text only if Groq is unavailable and you saved a Gemini key</td><td>To generate LIA's replies. Governed by <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google's own Privacy Policy</a> and the <a href="https://ai.google.dev/gemini-api/terms" target="_blank" rel="noopener">Gemini API Terms</a>.</td></tr>
+    <tr><td>Groq (api.groq.com)</td><td>Typed chat text (recent messages) and LIA's system instructions for the chosen personality and language</td><td>To generate LIA's chat replies. Governed by <a href="https://groq.com/privacy-policy/" target="_blank" rel="noopener">Groq's Privacy Policy</a> and <a href="https://console.groq.com/docs/legal/terms-of-use" target="_blank" rel="noopener">terms</a>.</td></tr>
     <tr><td>Google Firebase (full edition only)</td><td>An anonymous device identifier and the access key you entered</td><td>To validate your license. No personal profile is created.</td></tr>
     <tr><td>Instagram / Facebook apps (full edition only, if you use posting)</td><td>Only the specific photo/video and caption you asked LIA to post</td><td>To actually publish the post you requested, via Android's normal share mechanism.</td></tr>
     <tr><td>Your phone's dialer / SMS / WhatsApp</td><td>The contact and message you asked LIA to prepare</td><td>To place the call or open the message for you.</td></tr>
@@ -132,18 +154,20 @@
   circumstances.</p>
 
   <h2 id="storage">4. Where your data lives</h2>
-  <p>Your preferences (assistant name, personality, language, voice, theme) and the media inbox
-  for posting are stored locally on your device, and are excluded from Android's automatic
-  cloud backup - see <code>android:allowBackup="false"</code> in the app - so they never leave
-  your phone via backup. Your Gemini API key, if you added your own, is stored locally on your
-  device only. Full-edition license state (masked key, plan, expiry) is stored both on your
+  <p>Your preferences (assistant name, personality - including any custom personality text you
+  write - language, voice, theme), your saved conversation History, and the media inbox for
+  posting are stored locally on your device, and are excluded from Android's automatic cloud
+  backup - see <code>android:allowBackup="false"</code> in the app - so they never leave your
+  phone via backup. Your Gemini and Groq API keys, if you added them, are stored locally on
+  your device only and are sent only to Google and Groq respectively, to authenticate your own
+  requests. Full-edition license state (masked key, plan, expiry) is stored both on your
   device and in our Firestore database, tied to your device identifier, not your identity.</p>
 
   <h2 id="permissions">5. Android permissions LIA requests</h2>
   <table>
     <tr><th>Permission</th><th>Edition</th><th>What it's for</th></tr>
     <tr><td>Microphone</td><td>Both</td><td>Voice conversations.</td></tr>
-    <tr><td>Internet / Foreground service</td><td>Both</td><td>Talking to Gemini, and keeping a voice session alive while you're in another app.</td></tr>
+    <tr><td>Internet / Foreground service</td><td>Both</td><td>Talking to Gemini and Groq, and keeping a voice session alive while you're in another app.</td></tr>
     <tr><td>Notifications</td><td>Both</td><td>Showing that a voice session is active, with a Stop control.</td></tr>
     <tr><td>Contacts</td><td>Both</td><td>Matching a spoken/typed name to a phone number, locally (see §2).</td></tr>
     <tr><td>Phone calls</td><td>Both</td><td>Placing a call directly when you ask; without it, LIA opens the dialer instead.</td></tr>
@@ -156,7 +180,7 @@
   <h2 id="children">6. Children's privacy</h2>
   <p>LIA is not directed at children under 13, and we do not knowingly collect data from
   children under that age. If you believe a child has used LIA and shared personal data with
-  us, contact us at the address in §9 and we'll remove it.</p>
+  us, contact us at the address in §10 and we'll remove it.</p>
 
   <h2 id="rights">7. Your choices and rights</h2>
   <ul>
@@ -165,16 +189,18 @@
     <li><strong>Turn off "Auto Listening"</strong> in Settings if you don't want LIA to start
     listening automatically when you open the app.</li>
     <li><strong>Revoke permissions</strong> any time from Android's own App Info screen.</li>
+    <li><strong>Delete your conversation History</strong> any time: swipe a conversation away in
+    History, or use "Clear Conversation History" in Settings.</li>
     <li><strong>Delete everything LIA has stored on your device</strong> by uninstalling the
     app - since nothing is backed up to the cloud (see §4), this removes it completely from your
     device. A full-edition license key remains recorded against your device identifier in our
     database (so re-entering it later still works) unless you contact us to have it cleared.</li>
-    <li><strong>Ask us to delete your license record</strong> by emailing us (§9).</li>
+    <li><strong>Ask us to delete your license record</strong> by emailing us (§10).</li>
   </ul>
 
   <h2 id="security">8. Security</h2>
-  <p>Traffic to Google's Gemini API and to Firebase is encrypted in transit (HTTPS/TLS). We
-  don't store your Gemini API key or license data in plain, unencrypted form beyond what's
+  <p>Traffic to Google's Gemini API, to Groq's API and to Firebase is encrypted in transit
+  (HTTPS/TLS). We don't store your API keys or license data in plain, unencrypted form beyond what's
   described above. No method of transmission or storage is 100% secure, and we can't guarantee
   absolute security, but we don't take shortcuts with what we control.</p>
 
