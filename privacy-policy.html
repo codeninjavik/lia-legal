@@ -16,7 +16,7 @@
   <nav class="crumbs"><a href="index.html">Legal &amp; Privacy</a> / Privacy Policy</nav>
 
   <h1>Privacy Policy</h1>
-  <p class="updated">Last updated: 4 October 2026 · Applies to LIA for Android, both editions</p>
+  <p class="updated">Last updated: 26 October 2026 · Applies to LIA for Android, both editions</p>
 
   <p class="lede">
     LIA ("LIA", "the app", "we", "us") is made by <strong>codeninjavik</strong> ("we", "our").
@@ -32,7 +32,10 @@
     conversations are saved as text in a History list on your phone only. It reads your contacts only on your
     phone, to turn a name into a number, and never uploads your contact list. The full edition
     can optionally read and act on your screen when you ask it to, and can check a purchased
-    access key against our database - the Play edition does neither. LIA never sells your data,
+    access key against our database - the Play edition does neither. LIA now needs a free
+    account (email or Google) so you can use <strong>voice rooms</strong>: live group audio with friends.
+    That account keeps your name, a username and your photo on our server, and room audio is passed live
+    to the people in the room (it is not recorded by us). LIA never sells your data,
     and never reads your screen or listens in the background unless you've explicitly turned
     that on yourself.</p>
   </div>
@@ -46,7 +49,12 @@
     <tr><td>Read/tap/type on screen (Accessibility)</td><td>Optional, off by default</td><td>Not present in this edition at all</td></tr>
     <tr><td>Post to Instagram / Facebook</td><td>Optional feature, built on Accessibility</td><td>Not present in this edition at all</td></tr>
     <tr><td>Access-key licensing (Firebase)</td><td>Yes</td><td>Not present - this edition has no license check</td></tr>
+    <tr><td>LIA account (email or Google sign-in)</td><td>Yes</td><td>Yes</td></tr>
+    <tr><td>Voice rooms, invitations and share links</td><td>Yes</td><td>Yes</td></tr>
+    <tr><td>Voice keyboard</td><td>Yes</td><td>Yes</td></tr>
+    <tr><td>Screen sharing inside a voice room (you choose to start it)</td><td>Yes</td><td>Yes</td></tr>
   </table>
+  <p>The account, voice rooms and voice keyboard are the same in both editions and are described in section 2.</p>
   <p>You can always tell which edition you have: the full edition has an "Access key" section in
   your Profile and an "Accessibility" row in Settings; the Play edition has neither.</p>
 
@@ -131,13 +139,66 @@
   the key itself. We use Firebase Authentication in "anonymous" mode only for this, which does
   not collect your email, phone number, or identity.</p>
 
+  <h3 id="account">Your LIA account</h3>
+  <p>LIA asks you to log in before you use it, with Google or with an email address and a password.
+  Signing in is handled by <strong>Google Firebase Authentication</strong>. For voice rooms we then keep, on our
+  server, your <strong>name</strong>, your <strong>username</strong> (you choose it; it cannot be changed), your
+  <strong>profile photo address</strong> (from your Google account, if you use Google) and your phone's
+  <strong>push-notification address</strong> (see below). Your <strong>email address</strong> and, for email accounts,
+  your password (stored only as a one-way hash) live in Firebase Authentication; our room server does not store your
+  email. Other people can find you by username, and see your name, username and photo in the rooms you are in. They
+  never see your email or your account id: inside a room you appear under a random code.</p>
+
+  <h3 id="rooms">Voice rooms, invitations and share links</h3>
+  <p>When you join a voice room, your microphone audio is sent live to the other people in that room through
+  <strong>LiveKit</strong>, a real-time audio service. LIA does <strong>not record</strong> room audio and keeps no
+  copy of it; people in the room can hear you, and we cannot stop someone in the room from recording it
+  on their own device - only join rooms with people you trust. We keep, per room: its name and description, who hosts
+  it, who was invited and who sat in it (name, username, photo, time joined) and whether you muted yourself. A room's
+  host can invite people, remove a person from the room, and end it for everyone. The host can also create a
+  <strong>share link</strong>: anyone who opens the link while signed in is allowed to join that room, so share it
+  only with people you want in. To report someone, tap their picture in the room and choose <em>Report</em>: it opens an email to us that contains the room and that person's room code. Rooms and everything attached to them (seats, invitations) are erased
+  <strong>30 days after the room ends</strong>.</p>
+
+  <h3 id="screenshare">Screen sharing in voice rooms</h3>
+  <p>In a voice room you can choose to <strong>share your screen</strong> so the other people in that room can see it.
+  This only starts when you tap <em>Share screen</em> and then accept Android's own "start recording or casting"
+  prompt, which Android shows every time. While you share, Android and LIA show a notification, and sharing stops when
+  you tap <em>Stop sharing</em>, leave the room, the host ends the room, or you swipe the notification's Stop.</p>
+  <ul>
+    <li><strong>Everything on your screen is visible</strong> to the people in the room while you share: other apps,
+    messages, notifications, photos, names and numbers. LIA cannot black out private details for you (Android hides
+    only the content of apps that mark themselves secure, such as many banking apps and password fields). Close or
+    hide anything private before you start, and only share with people you trust.</li>
+    <li>The picture of your screen is sent live through <strong>LiveKit</strong> to the people in the room (and to the
+    host). LIA <strong>does not record or store</strong> it, and keeps no copy. Other people in the room could still
+    record what they see on their own device, and we cannot prevent that.</li>
+    <li>If you share your screen with sound, the sound LIA can capture from the phone is sent the same way. The room's
+    host can remove you and stop your sharing at any time.</li>
+    <li>LIA does not look at, read, summarise or analyse what is on your screen when you share it; it only passes it
+    on to the room.</li>
+  </ul>
+
+  <h3 id="push">Notifications about invitations</h3>
+  <p>To tell you that someone invited you to a room, we store your phone's push address (a token from
+  <strong>Google Firebase Cloud Messaging</strong>) next to your profile and send a short message (the room name and
+  who invited you) through Google's push service. You can switch these notifications off in LIA
+  (Broadcast &amp; Voice Rooms) or in Android's notification settings. Logging out removes this phone's push address.</p>
+
+  <h3 id="keyboard">Voice keyboard</h3>
+  <p>The LIA voice keyboard records what you say only while you are using it, and sends that audio to
+  <strong>Groq</strong> (api.groq.com) using your own Groq key, to turn it into text (and, if you pick a translation
+  mode, to translate it). The text is typed into the app you are using. LIA does not keep the audio or the text and
+  does not read other things you type on any keyboard.</p>
+
   <h3>What we do <em>not</em> do</h3>
   <ul>
     <li>We do not use advertising or analytics SDKs of any kind in LIA.</li>
     <li>We do not sell, rent, or trade your data to anyone, ever.</li>
-    <li>We do not require an account, email, or sign-up to use LIA.</li>
-    <li>The Play edition does not use Accessibility, does not read your screen, and has no
-    license/Firebase component at all.</li>
+    <li>We do not upload your contacts list or read your screen for the account or for rooms.</li>
+    <li>We do not record voice-room audio or shared screens.</li>
+    <li>The Play edition does not use Accessibility and does not read your screen. It has no license check;
+    it uses Firebase only for sign-in, voice-room invitations and push messages.</li>
   </ul>
 
   <h2 id="share">3. Who your data is shared with</h2>
@@ -145,7 +206,11 @@
     <tr><th>Recipient</th><th>What they get</th><th>Why</th></tr>
     <tr><td>Google (Gemini API)</td><td>Voice audio during a voice conversation; your website-builder requests; typed chat text only if Groq is unavailable and you saved a Gemini key</td><td>To generate LIA's replies. Governed by <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google's own Privacy Policy</a> and the <a href="https://ai.google.dev/gemini-api/terms" target="_blank" rel="noopener">Gemini API Terms</a>.</td></tr>
     <tr><td>Groq (api.groq.com)</td><td>Typed chat text (recent messages) and LIA's system instructions for the chosen personality and language</td><td>To generate LIA's chat replies. Governed by <a href="https://groq.com/privacy-policy/" target="_blank" rel="noopener">Groq's Privacy Policy</a> and <a href="https://console.groq.com/docs/legal/terms-of-use" target="_blank" rel="noopener">terms</a>.</td></tr>
-    <tr><td>Google Firebase (full edition only)</td><td>An anonymous device identifier and the access key you entered</td><td>To validate your license. No personal profile is created.</td></tr>
+    <tr><td>Google Firebase (full edition only, licensing)</td><td>An anonymous device identifier and the access key you entered</td><td>To validate your license. No personal profile is created.</td></tr>
+    <tr><td>Google Firebase (both editions: Authentication, Firestore, Cloud Messaging)</td><td>Your email or Google sign-in, name, username, photo address, push address, rooms, invitations</td><td>To sign you in, to run voice rooms and to deliver invitation notifications. Governed by <a href="https://firebase.google.com/support/privacy" target="_blank" rel="noopener">Firebase's privacy information</a>.</td></tr>
+    <tr><td>Cloudflare (Workers)</td><td>Your requests to our room server (they carry a short-lived sign-in token; your IP address is visible to Cloudflare)</td><td>It runs our room server. See <a href="https://www.cloudflare.com/privacypolicy/" target="_blank" rel="noopener">Cloudflare's Privacy Policy</a>.</td></tr>
+    <tr><td>LiveKit (LiveKit Cloud)</td><td>Live audio (and, if you share it, the live picture of your screen) of the room you are in, your random room code and display name, your IP address</td><td>To carry voice-room audio between participants. Not recorded. See <a href="https://livekit.io/legal/privacy-policy" target="_blank" rel="noopener">LiveKit's Privacy Policy</a>.</td></tr>
+    <tr><td>Other people in a room you join</td><td>Your voice, name, username and photo while you are in the room</td><td>That is what a voice room is. The host can remove anyone.</td></tr>
     <tr><td>Instagram / Facebook apps (full edition only, if you use posting)</td><td>Only the specific photo/video and caption you asked LIA to post</td><td>To actually publish the post you requested, via Android's normal share mechanism.</td></tr>
     <tr><td>Your phone's dialer / SMS / WhatsApp</td><td>The contact and message you asked LIA to prepare</td><td>To place the call or open the message for you.</td></tr>
     <tr><td>Law enforcement / legal process</td><td>Whatever we're legally compelled to provide</td><td>Only if required by law - we don't proactively share anything.</td></tr>
@@ -154,6 +219,9 @@
   circumstances.</p>
 
   <h2 id="storage">4. Where your data lives</h2>
+  <p>Your LIA account profile, voice rooms and invitations are stored on our server (Google Firestore, reached through a
+  Cloudflare Worker). Room audio is not stored anywhere. Ended rooms are erased after 30 days, invitations expire after
+  24 hours, and your profile stays until you delete your account (section 7).</p>
   <p>Your preferences (assistant name, personality - including any custom personality text you
   write - language, voice, theme), your saved conversation History, and the media inbox for
   posting are stored locally on your device, and are excluded from Android's automatic cloud
@@ -168,7 +236,11 @@
     <tr><th>Permission</th><th>Edition</th><th>What it's for</th></tr>
     <tr><td>Microphone</td><td>Both</td><td>Voice conversations.</td></tr>
     <tr><td>Internet / Foreground service</td><td>Both</td><td>Talking to Gemini and Groq, and keeping a voice session alive while you're in another app.</td></tr>
-    <tr><td>Notifications</td><td>Both</td><td>Showing that a voice session is active, with a Stop control.</td></tr>
+    <tr><td>Notifications</td><td>Both</td><td>Showing that a voice session or a voice room is active, with a Leave/Stop control, and room invitations.</td></tr>
+    <tr><td>Microphone in a foreground service</td><td>Both</td><td>Keeping you in a voice room while LIA is in the background.</td></tr>
+    <tr><td>Screen capture (Android's "start recording or casting" prompt, run as a foreground service)</td><td>Both, only when you start sharing</td><td>Showing your screen to the people in a voice room. Android asks you every time, and a notification shows while it runs.</td></tr>
+    <tr><td>Display over other apps</td><td>Play edition, optional</td><td>Lets Android allow LIA to open the app you asked for when LIA is in the background. LIA draws nothing visible.</td></tr>
+    <tr><td>Input method (voice keyboard)</td><td>Both, optional</td><td>You turn the LIA keyboard on yourself in Android's settings.</td></tr>
     <tr><td>Contacts</td><td>Both</td><td>Matching a spoken/typed name to a phone number, locally (see §2).</td></tr>
     <tr><td>Phone calls</td><td>Both</td><td>Placing a call directly when you ask; without it, LIA opens the dialer instead.</td></tr>
     <tr><td>Query all installed apps</td><td>Full edition</td><td>Finding apps by name to open them.</td></tr>
@@ -178,12 +250,24 @@
   a launcher icon) instead of the broader "query all installed apps" permission.</p>
 
   <h2 id="children">6. Children's privacy</h2>
-  <p>LIA is not directed at children under 13, and we do not knowingly collect data from
-  children under that age. If you believe a child has used LIA and shared personal data with
+  <p>LIA, its accounts and its voice rooms are not directed at children under 13, and we do not knowingly collect data from
+  children under that age. Voice rooms can put you in touch with people you do not know if you share a link or invite
+  someone you only know by username: if you are under 18, use them only with people you trust. If you believe a child has used LIA and shared personal data with
   us, contact us at the address in §10 and we'll remove it.</p>
 
   <h2 id="rights">7. Your choices and rights</h2>
+  <h3 id="delete-account">Delete your account and data</h3>
+  <p><strong>In the app:</strong> open LIA &rarr; Profile &rarr; <em>Delete account</em> and confirm. This immediately
+  erases, from our server, your profile (name, username, photo address, push address), your invitations, your seats in
+  rooms and every room you host (they are ended for everyone first). Your username becomes free for others.
+  <strong>Without the app:</strong> email <a href="mailto:codeninjavik@gmail.com">codeninjavik@gmail.com</a> from the
+  address you signed in with, with the subject "Delete my LIA account", and we will do the same and also remove your
+  sign-in record (email) from Firebase Authentication within 30 days. <em>Log out</em> (Profile &rarr; Log out) only
+  signs you out of this phone; it keeps your account.</p>
+  <h3>Other choices</h3>
   <ul>
+    <li><strong>Turn off invitation notifications</strong> in Broadcast &amp; Voice Rooms or in Android's settings.</li>
+    <li><strong>Leave any room</strong> at any time; the host can also remove you.</li>
     <li><strong>Turn off Accessibility</strong> any time from LIA's Settings (full edition) -
     the app keeps working for everything else.</li>
     <li><strong>Turn off "Auto Listening"</strong> in Settings if you don't want LIA to start
@@ -199,6 +283,9 @@
   </ul>
 
   <h2 id="security">8. Security</h2>
+  <p>Our room server checks your signed-in identity on every request, hands out room-audio passes that expire
+  quickly, limits how often an account can create rooms or invite people, and keeps its secrets (service keys) out of
+  the app.</p>
   <p>Traffic to Google's Gemini API, to Groq's API and to Firebase is encrypted in transit
   (HTTPS/TLS). We don't store your API keys or license data in plain, unencrypted form beyond what's
   described above. No method of transmission or storage is 100% secure, and we can't guarantee
