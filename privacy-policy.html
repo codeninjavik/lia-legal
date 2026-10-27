@@ -142,7 +142,7 @@
   <h3 id="account">Your LIA account</h3>
   <p>LIA asks you to log in before you use it, with Google or with an email address and a password.
   Signing in is handled by <strong>Google Firebase Authentication</strong>. For voice rooms we then keep, on our
-  server, your <strong>name</strong>, your <strong>username</strong> (you choose it; it cannot be changed), your
+  server, your <strong>name</strong>, your <strong>username</strong> (you choose it right after you first log in, and can change it in Profile once a week; the old name becomes free for others), your
   <strong>profile photo address</strong> (from your Google account, if you use Google) and your phone's
   <strong>push-notification address</strong> (see below). Your <strong>email address</strong> and, for email accounts,
   your password (stored only as a one-way hash) live in Firebase Authentication; our room server does not store your
@@ -155,8 +155,8 @@
   copy of it; people in the room can hear you, and we cannot stop someone in the room from recording it
   on their own device - only join rooms with people you trust. We keep, per room: its name and description, who hosts
   it, who was invited and who sat in it (name, username, photo, time joined) and whether you muted yourself. A room's
-  host can invite people, remove a person from the room, and end it for everyone. The host can also create a
-  <strong>share link</strong>: anyone who opens the link while signed in is allowed to join that room, so share it
+  host can invite people, remove a person from the room, and end it for everyone. Anyone in the room can pass on the
+  room's <strong>share link</strong> (Share button): anyone who opens the link while signed in is allowed to join that room, so share it
   only with people you want in. To report someone, tap their picture in the room and choose <em>Report</em>: it opens an email to us that contains the room and that person's room code. Rooms and everything attached to them (seats, invitations) are erased
   <strong>30 days after the room ends</strong>.</p>
 
@@ -239,7 +239,7 @@
     <tr><td>Notifications</td><td>Both</td><td>Showing that a voice session or a voice room is active, with a Leave/Stop control, and room invitations.</td></tr>
     <tr><td>Microphone in a foreground service</td><td>Both</td><td>Keeping you in a voice room while LIA is in the background.</td></tr>
     <tr><td>Screen capture (Android's "start recording or casting" prompt, run as a foreground service)</td><td>Both, only when you start sharing</td><td>Showing your screen to the people in a voice room. Android asks you every time, and a notification shows while it runs.</td></tr>
-    <tr><td>Display over other apps</td><td>Play edition, optional</td><td>Lets Android allow LIA to open the app you asked for when LIA is in the background. LIA draws nothing visible.</td></tr>
+    <tr><td>Display over other apps</td><td>Both, optional</td><td>Lets Android allow LIA to open the app you asked for when LIA is in the background, and shows the small voice-room orb on top of other apps while you are in a room. The orb shows the initials of whoever is talking and the number of people; it disappears when you leave the room or open LIA.</td></tr>
     <tr><td>Input method (voice keyboard)</td><td>Both, optional</td><td>You turn the LIA keyboard on yourself in Android's settings.</td></tr>
     <tr><td>Contacts</td><td>Both</td><td>Matching a spoken/typed name to a phone number, locally (see §2).</td></tr>
     <tr><td>Phone calls</td><td>Both</td><td>Placing a call directly when you ask; without it, LIA opens the dialer instead.</td></tr>
